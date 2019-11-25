@@ -4,24 +4,30 @@
 using namespace std;
 
 int main(){
-  //cout << "1" << endl;
+
   BST<int> *tree = new BST<int>();
-  //cout << "2" << endl;
-  tree->insert(5);
-  tree->insert(4);
-  //cout << "3" << endl;
-  tree->insert(3);
-  tree->insert(2);
+
+  for(int i = 0; i < 5; ++i){
+    int j;
+    if(i%2 == 0){
+      j = i + 5;
+    }
+    else{
+      j = -i + 5;
+    }
+
+    int *num = new int(j);
+    TreeNode<int>* node = new TreeNode<int>(j, num);
+
+    tree->insert(node);
 
 
+  }
 
-  //tree->insert(6);
-
-  tree->insert(1);
   //tree->insert(9);
   //cout << "4" << endl;
 
-  tree->printTree();
+  //tree->printTree();
 
   //cout << "5" << endl;
 

@@ -7,8 +7,8 @@ public:
   BST();
   ~BST();
 
-  bool search(T value);
-  void insert(T value);
+  bool search(int k);
+  void insert(TreeNode<T>* node);
 
   //delete placeholder
 
@@ -29,6 +29,7 @@ public:
 template <class T>
 BST<T>::BST(){
   root = NULL;
+  size = 0;
 }
 template <class T>
 BST<T>::~BST(){
@@ -37,13 +38,13 @@ BST<T>::~BST(){
 }
 template <class T>
 void BST<T>::recPrint(TreeNode<T> *node){
-  cout << "The root is: " << root->key << endl;
+  //cout << "The root is: " << root->key << endl;
   if(node == NULL){
     return;
 
   }
   recPrint(node->left);
-  cout << node->key << endl;
+  cout << node->data << endl;
   recPrint(node->right);
 
 
@@ -64,6 +65,7 @@ TreeNode<T>* BST<T>::getMax(){
   while(current->right != NULL){
     current = current->right;//keep going to the right
   }
+  return current;
 }
 
 template <class T>
@@ -76,11 +78,14 @@ TreeNode<T>* BST<T>::getMin(){
   while(current->left != NULL){
     current = current->left;//keep going to the right
   }
+  return current;
 }
 
 template <class T>
-void BST<T>::insert(T value){
-  TreeNode<T> *node = new TreeNode<T>(value);
+void BST<T>::insert(TreeNode<T>* node){
+  //TreeNode<T> *node = new TreeNode<T>(value);
+  //just create the node outside the tree itself
+  //note - delete instantiated nodes
   if(root == NULL){// empty tree
     root = node;
   }
@@ -90,13 +95,14 @@ void BST<T>::insert(T value){
     while(true){
       parent = current;
 
-      if(value < current->key){
+      if(node->key < current->key){
         //we go left
         current = current->left;
         if(current == NULL){
           parent->left = node;
           break;
         }
+      }
         else{
           current = current->right;
           if(current == NULL){
@@ -104,21 +110,22 @@ void BST<T>::insert(T value){
             break;
           }
         }
-      }
+
     }
   }
+  size++;
 }
 
 template <class T>
-bool BST<T>::search(T value){
+bool BST<T>::search(int k){
   if(root == NULL){
     return false;
   }
   else{
     //if we make it this far than we know tree is not empty
     TreeNode<T> *current = root;
-    while(current->key != value){
-      if(value < current->key){
+    while(current->key != k){
+      if(k < current->key){
         current = current->left;
       }
       else{
