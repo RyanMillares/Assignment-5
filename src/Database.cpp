@@ -158,9 +158,84 @@ void Database::RollBack(){
 }
 void Database::ExitProgram(){
   //exist
+  //I MEAN EXIT WTF
 }
 
 
-void RunProgram(){
+void Database::RunProgram(){
   //will have like all the sh**
+  //check for studentTable and facultyTable
+  //read in files if existing
+  int choice, id;
+  string name;
+  string level;
+  string major;
+  string department;
+  double gpa;
+
+  while(choice != 14){
+    while(true){
+      cout << "What will it be?\n\n1 - Print students\n2 - Add students" << endl;
+      cin >> choice;
+      if(cin.fail()){
+        cout << "Please only put int value." << endl;
+        cin.clear();
+        cin.ignore(10000,'\n');
+      }
+      else{
+        break;
+      }
+    }
+    switch(choice){
+      case 1: // let's print shit
+        PrintStudents(masterStudent->root);
+      break;
+      case 2: //let's add shit
+      while(true){
+        cout << "ID: ";
+        cin >> id;
+        if(cin.fail()){
+          cout << "Please only put int value." << endl;
+          cin.clear();
+          cin.ignore(10000,'\n');
+        }
+        else{
+          cin.clear();
+          cin.ignore(10000,'\n');
+          break;
+        }
+      }
+      //https://stackoverflow.com/questions/9469264/c-cin-only-reads-the-first-word
+        cout << "Name: ";
+        getline(cin, name);
+
+        cout << "Level: ";
+
+        getline(cin, level);
+        cout << "Major: ";
+
+        getline(cin, major);
+        cout << "GPA: ";
+        cin >> gpa;
+        AddStudent(Student(id, name, level, major, gpa));
+        cout << "Student added." << endl;
+
+
+      break;
+    }
+  }
 }
+/** NUMBER ERROR HANDLER reference
+while(true){
+  cout << "ID: ";
+  cin >> id;
+  if(cin.fail()){
+    cout << "Please only put int value." << endl;
+    cin.clear();
+    cin.ignore(10000,'\n');
+  }
+  else{
+    break;
+  }
+}
+**/

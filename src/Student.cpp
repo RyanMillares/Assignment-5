@@ -9,9 +9,9 @@ Student::Student(){
   major = "N/A";
   gpa = -1.0;
 }
-Student::Student(int id1, int id2, string name1, string level1, string major1, double gpa1){
+Student::Student(int id1, string name1, string level1, string major1, double gpa1){
   studentId = id1;
-  advisorId = id2;
+
   name = name1;
   level = level1;
   major = major1;
@@ -28,6 +28,13 @@ void Student::PrintStudentData(){
   cout << "Level: " << level << endl;
   cout << "Major: " << major << endl;
   cout << "GPA: " << gpa << endl;
+  if(advisorId == -1){
+    cout << "Advisor ID: None assigned" << endl;
+  }
+  else{
+    cout << "Advisor ID: " << advisorId << endl;
+  }
+
 
 
 }

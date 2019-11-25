@@ -4,10 +4,10 @@
 
 using namespace std;
 class Database{
-private:
+public:
   BST<Student>* masterStudent;
   BST<Faculty>* masterFaculty;
-public:
+//i give up making stuff private honestly
   Database();
   ~Database();
 
@@ -30,6 +30,8 @@ public:
   void ExitProgram();
 
   void RunProgram();
+
+  //void NumberCheck()
 
 
 };

@@ -1,10 +1,11 @@
-#include "BST.h"
-#include "Student.h"
+
+#include "Database.h"
+
 #include <iostream>
 using namespace std;
 
 int main(){
-
+  /**
   BST<int> *tree = new BST<int>();
 
   for(int i = 0; i < 5; ++i){
@@ -28,7 +29,9 @@ int main(){
   //cout << "4" << endl;
   tree->deleteNode(5);
   tree->printTree();
-
+**/
+  Database db;
+  db.RunProgram();
   //cout << "5" << endl;
 
   //tree->insert(Student(1283, 2313, "Ryan", "sophomore", "cs", 3.376));
