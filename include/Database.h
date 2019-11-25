@@ -14,20 +14,20 @@ public:
   void ReadInStudents();
   void ReadInFaculty();
 
-  void PrintStudents(TreeNode<Student>* node); //done
-  void PrintFaculty(TreeNode<Faculty>* node); //done
-  void FindStudent(int id);
-  void FindFaculty(int id);
-  void FindAdvisor(int id);
-  void FindAdvisees(int id);
-  void AddStudent(Student student);
-  void DeleteStudent(int id);
-  void AddFaculty(Faculty faculty);
-  void DeleteFaculty(int id);
-  void ChangeAdvisor(int ids, int idf);
-  void RemoveAdvisee(int ids, int idf);
-  void RollBack();
-  void ExitProgram();
+  void PrintStudents(TreeNode<Student>* node); //done, tested
+  void PrintFaculty(TreeNode<Faculty>* node); //done, tested
+  void FindStudent(int id);//done, not tested
+  void FindFaculty(int id);//done, not tested
+  void FindAdvisor(int ids);
+  void FindAdvisees(int idf);
+  void AddStudent(Student student); //done, tested
+  void DeleteStudent(int id); //done, not tested
+  void AddFaculty(Faculty faculty); //done, tested
+  void DeleteFaculty(int id); //done, not tested
+  void ChangeAdvisor(int ids, int idf);//done, not tested
+  void RemoveAdvisee(int ids, int idf); //done, not tested
+  void RollBack(); //what the actual frick is this
+  void ExitProgram(); //
 
   void RunProgram();
 

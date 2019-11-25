@@ -152,6 +152,29 @@ void Database::RemoveAdvisee(int ids, int idf){
     cout << "Invalid student ID provided." << endl;
   }
 }
+
+void Database::FindAdvisor(int ids){
+  //check if student id exists
+  //if exists, return advisor info
+  if(masterStudent->IsPresent(ids)){
+    if(masterStudent->search(ids).advisorId != -1){
+      masterFaculty->search(masterStudent->search(ids).advisorId).PrintFacultyData();
+
+    }
+  }
+}
+void Database::FindAdvisees(int idf){
+  //check if teacher id exsits
+  //if so, return all them
+  if(masterFaculty->IsPresent(idf)){
+    if(masterFaculty->search(idf).adviseeList->getSize() != 0){
+      //masterStudent->search(masterFaculty->search(idf).advisorId).PrintFacultyData();
+      //note to self, add function in faculty.cpp to print all advisees 
+    }
+  }
+
+}
+
 void Database::RollBack(){
   //yahh it's rewind time
 
