@@ -5,11 +5,29 @@
 using namespace std;
 class Database{
 private:
-  BST<Student>* StudentTree;
-  BST<Faculty>* FacultyTree;
+  BST<Student>* masterStudent;
+  BST<Faculty>* masterFaculty;
 public:
   Database();
   ~Database();
+
+  void ReadInStudents();
+  void ReadInFaculty();
+
+  void PrintStudents();
+  void PrintFaculty();
+  void FindStudent(int id);
+  void FindFaculty(int id);
+  void FindAdvisor(int id);
+  void FindAdvisees(int id);
+  void AddStudent(Student student);
+  void DeleteStudent(int id);
+  void AddFaculty(Faculty faculty);
+  void DeleteFaculty(int id);
+  void ChangeAdvisor(int ids, int idf);
+  void RemoveAdvisee(int ids, int idf);
+  void RollBack();
+  void ExitProgram();
 
 
 };

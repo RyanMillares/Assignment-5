@@ -44,7 +44,7 @@ void BST<T>::recPrint(TreeNode<T> *node){
 
   }
   recPrint(node->left);
-  cout << node->data << endl;
+  cout << node->key << endl;
   recPrint(node->right);
 
 
@@ -177,7 +177,7 @@ bool BST<T>::deleteNode(int value){
       }
 
     }
-    else if(current->right == NULL){ //node to delete has 1 child, it's right no left
+    else if(current->left == NULL){ //node to delete has 1 child, it's right no left
       if(current == root){
         root = current->right;
       }
@@ -186,6 +186,17 @@ bool BST<T>::deleteNode(int value){
       }
       else{
         parent->right = current->right;
+      }
+    }
+    else if(current->right == NULL){ //node to delete has 1 child, it's left no right
+      if(current == root){
+        root = current->left;
+      }
+      else if(isLeft){
+        parent->left = current->left;
+      }
+      else{
+        parent->right = current->left;
       }
     }
     else{
@@ -221,6 +232,9 @@ TreeNode<T>* BST<T>::getSuccessor(TreeNode<T> *d){// d is node to delete
   }
   //we made here, means we found getSuccessor
   if(successor != d->right){
-    //sp->left =
+
+    sp->left = successor->right;
+    successor->right = d->right;
   }
+  return successor;
 } // d is node to delete

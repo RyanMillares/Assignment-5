@@ -6,12 +6,12 @@ public:
   TreeNode<T>* right;
   TreeNode<T>* left;
   int key;
-  T* data;
+  T data;
   //changing to pointer to reference default constructors if needed
 
   TreeNode();
   TreeNode(int k);
-  TreeNode(int k, T* d);
+  TreeNode(int k, T d);
   ~TreeNode();
 
 
@@ -19,7 +19,6 @@ public:
 template <class T>
 TreeNode<T>::TreeNode(){
   key = 0;
-  data = T(); //default constructor
   right = NULL;
   left = NULL;
 }
@@ -27,13 +26,12 @@ TreeNode<T>::TreeNode(){
 template <class T>
 TreeNode<T>::TreeNode(int k){
   key = k;
-  data = T(); //default constructor
   right = NULL;
   left = NULL;
 }
 
 template <class T>
-TreeNode<T>::TreeNode(int k, T* d){
+TreeNode<T>::TreeNode(int k, T d){
   data = d;
   key = k;
   right = NULL;
@@ -44,5 +42,5 @@ template <class T>
 TreeNode<T>::~TreeNode(){
   delete left;
   delete right;
-  delete data;
+  //delete data;
 }

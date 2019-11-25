@@ -16,7 +16,7 @@ int main(){
       j = -i + 5;
     }
 
-    int *num = new int(j);
+    int num = j;
     TreeNode<int>* node = new TreeNode<int>(j, num);
 
     tree->insert(node);
@@ -26,8 +26,8 @@ int main(){
 
   //tree->insert(9);
   //cout << "4" << endl;
-
-  //tree->printTree();
+  tree->deleteNode(5);
+  tree->printTree();
 
   //cout << "5" << endl;
 

@@ -1,9 +1,9 @@
-
+#include <iostream>
 using namespace std;
 class Student{
 public:
   int studentId;
-  int facultyId;
+  int advisorId;
   string name;
   string level;
   string major;

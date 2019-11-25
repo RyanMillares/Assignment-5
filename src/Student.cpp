@@ -3,7 +3,7 @@
 using namespace std;
 Student::Student(){
   studentId = -1;
-  facultyId = -1;
+  advisorId = -1;
   name = "N/A";
   level = "N/A";
   major = "N/A";
@@ -11,7 +11,7 @@ Student::Student(){
 }
 Student::Student(int id1, int id2, string name1, string level1, string major1, double gpa1){
   studentId = id1;
-  facultyId = id2;
+  advisorId = id2;
   name = name1;
   level = level1;
   major = major1;
@@ -19,7 +19,7 @@ Student::Student(int id1, int id2, string name1, string level1, string major1, d
 }
 
 void Student::setAdvisor(int newId){
-  facultyId = newId;
+  advisorId = newId;
 }
 
 void Student::PrintStudentData(){
