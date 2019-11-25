@@ -28,6 +28,7 @@ void Database::PrintStudents(TreeNode<Student>* node){
       PrintStudents(node->left);
     }
     node->data.PrintStudentData();
+    //cout << "-----------------------------" << endl;
     if(node->right != NULL){
       PrintStudents(node->right);
     }
@@ -54,8 +55,21 @@ void Database::PrintFaculty(TreeNode<Faculty>* node){
   }
   //print all faculty and their info
 }
-void Database::FindStudent(int id){
-
+void Database::FindStudent(){
+  int id;
+  while(true){
+    cout << "Please provide existing student ID" << endl;
+    cout << "ID: ";
+    cin >> id;
+    if(cin.fail()){
+      cout << "Please only put int value." << endl;
+      cin.clear();
+      cin.ignore(10000,'\n');
+    }
+    else{
+      break;
+    }
+  }
   //Print student info given their ID
   if(masterStudent->size == 0){
     cout << "Student Database is empty" << endl;
@@ -70,8 +84,22 @@ void Database::FindStudent(int id){
 
   }
 }
-void Database::FindFaculty(int id){
+void Database::FindFaculty(){
   //Print faculty info given their id
+  int id;
+  while(true){
+    cout << "Please provide faculty ID" << endl;
+    cout << "ID: ";
+    cin >> id;
+    if(cin.fail()){
+      cout << "Please only put int value." << endl;
+      cin.clear();
+      cin.ignore(10000,'\n');
+    }
+    else{
+      break;
+    }
+  }
   if(masterFaculty->size == 0){
     cout << "Faculty Database is empty" << endl;
   }
@@ -85,11 +113,45 @@ void Database::FindFaculty(int id){
 
   }
 }
-void Database::AddStudent(Student student){
-  TreeNode<Student>* node = new TreeNode<Student>(student.studentId, student);
-  masterStudent->insert(node);
+void Database::AddStudent(){
+  int idS;
+  string nameS, levelS, major;
+  double gpa;
+  while(true){
+    cout << "ID: ";
+    cin >> idS;
+    if(cin.fail()){
+      cout << "Please only put int value." << endl;
+      cin.clear();
+      cin.ignore(10000,'\n');
+    }
+    else{
+      cin.clear();
+      cin.ignore(10000,'\n');
+      break;
+    }
+  }
+  //https://stackoverflow.com/questions/9469264/c-cin-only-reads-the-first-word
+    cout << "Name: ";
+    getline(cin, nameS);
+
+    cout << "Level: ";
+
+    getline(cin, levelS);
+    cout << "Major: ";
+
+    getline(cin, major);
+    cout << "GPA: ";
+    cin >> gpa;
+  TreeNode<Student>* studentnode = new TreeNode<Student>(idS, Student(idS, nameS, levelS, major, gpa));
+  masterStudent->insert(studentnode);
+  cout << "Student added." << endl;
+  delete studentnode;
+  cin.clear();
+  cin.ignore(10000,'\n');
   //adds a student to database
 }
+
 void Database::DeleteStudent(int id){
   //check if id exists in tree
   //if exists, deletes a student given the id
@@ -100,12 +162,42 @@ void Database::DeleteStudent(int id){
       cout << "Student with ID " << id << " not found in database." << endl;
   }
 }
-void Database::AddFaculty(Faculty faculty){
-  TreeNode<Faculty>* node = new TreeNode<Faculty>(faculty.facultyId, faculty);
-  masterFaculty->insert(node);
 
+void Database::AddFaculty(){
+  int idF;
+  string nameF, levelF, department;
+  while(true){
+    cout << "ID: ";
+    cin >> idF;
+    if(cin.fail()){
+      cout << "Please only put int value." << endl;
+      cin.clear();
+      cin.ignore(10000,'\n');
+    }
+    else{
+      cin.clear();
+      cin.ignore(10000,'\n');
+      break;
+    }
+  }
+  cout << "Name: ";
+  getline(cin, nameF);
+
+  cout << "Level: ";
+
+  getline(cin, levelF);
+  cout << "Department: ";
+
+  getline(cin, department);
+
+  TreeNode<Faculty>* facultynode = new TreeNode<Faculty>(idF, Faculty(idF, nameF, levelF, department));
+  masterFaculty->insert(facultynode);
+  delete facultynode;
+  cin.clear();
+  cin.ignore(10000,'\n');
   //adds a faculty to database
 }
+
 void Database::DeleteFaculty(int id){
   //checks if id exists in tree
   //if exists, deletes a faculty given the id
@@ -164,13 +256,24 @@ void Database::FindAdvisor(int ids){
   }
 }
 void Database::FindAdvisees(int idf){
+  Faculty fac;
   //check if teacher id exsits
   //if so, return all them
   if(masterFaculty->IsPresent(idf)){
-    if(masterFaculty->search(idf).adviseeList->getSize() != 0){
-      //masterStudent->search(masterFaculty->search(idf).advisorId).PrintFacultyData();
-      //note to self, add function in faculty.cpp to print all advisees 
+    fac = masterFaculty->search(idf);
+    if(fac.CheckAdvisees()){
+      cout << "Advisees: " << fac.numOfAdvisees << endl;
+      ListNode<int>* current = fac.adviseeList->front;
+      for(int i = 0; i < fac.numOfAdvisees; ++i){
+        cout << "   " << i << ") ";
+        masterStudent->search(current->data).PrintStudentData();
+      }
+
     }
+
+      //masterStudent->search(masterFaculty->search(idf).advisorId).PrintFacultyData();
+      //note to self, add function in faculty.cpp to print all advisees
+
   }
 
 }
@@ -184,21 +287,29 @@ void Database::ExitProgram(){
   //I MEAN EXIT WTF
 }
 
-
+void Database::PrintMenu(){
+  cout << "What will it be?\n" << endl;
+  cout << "1 - Print all students" << endl;
+  cout << "2 - Print all faculty members" << endl;
+  cout << "3 - Add a student" << endl;
+  cout << "4 - Add a faculty member" << endl;
+}
 void Database::RunProgram(){
   //will have like all the sh**
   //check for studentTable and facultyTable
   //read in files if existing
-  int choice, id;
-  string name;
-  string level;
+  int idS, idF;
+  int choice;
+  string nameS, levelS;
+  string nameF, levelF;
   string major;
   string department;
   double gpa;
 
+
   while(choice != 14){
+    PrintMenu();
     while(true){
-      cout << "What will it be?\n\n1 - Print students\n2 - Add students" << endl;
       cin >> choice;
       if(cin.fail()){
         cout << "Please only put int value." << endl;
@@ -210,76 +321,46 @@ void Database::RunProgram(){
       }
     }
     switch(choice){
-      case 1: // let's print shit
+      case 1:
         PrintStudents(masterStudent->root);
       break;
-      case 2: //lets print the faculty
+      case 2:
         PrintFaculty(masterFaculty->root);
       break;
-      case 3: //let's add shit
-      while(true){
-        cout << "ID: ";
-        cin >> id;
-        if(cin.fail()){
-          cout << "Please only put int value." << endl;
-          cin.clear();
-          cin.ignore(10000,'\n');
-        }
-        else{
-          cin.clear();
-          cin.ignore(10000,'\n');
-          break;
-        }
-      }
-      //https://stackoverflow.com/questions/9469264/c-cin-only-reads-the-first-word
-        cout << "Name: ";
-        getline(cin, name);
-
-        cout << "Level: ";
-
-        getline(cin, level);
-        cout << "Major: ";
-
-        getline(cin, major);
-        cout << "GPA: ";
-        cin >> gpa;
-        AddStudent(Student(id, name, level, major, gpa));
-        cout << "Student added." << endl;
-
+      case 3:
+        cout << "---Adding Student---\nPlease provide following info." << endl;
+        AddStudent();
+      break;
+      case 4:
+        cout << "---Adding Faculty---\nPlease provide following info." << endl;
+        AddFaculty();
 
       break;
-      case 4: //let's add the older ones
-      while(true){
-        cout << "ID: ";
-        cin >> id;
-        if(cin.fail()){
-          cout << "Please only put int value." << endl;
-          cin.clear();
-          cin.ignore(10000,'\n');
-        }
-        else{
-          cin.clear();
-          cin.ignore(10000,'\n');
-          break;
-        }
-      }
-      //https://stackoverflow.com/questions/9469264/c-cin-only-reads-the-first-word
-        cout << "Name: ";
-        getline(cin, name);
-
-        cout << "Level: ";
-
-        getline(cin, level);
-        cout << "Department: ";
-
-        getline(cin, department);
-
-        AddFaculty(Faculty(id, name, level, department));
-        cout << "Faculty added." << endl;
-
-
+      case 5:
       break;
+      case 6:
+      break;
+      case 7:
+      break;
+      case 8:
+      break;
+      case 9:
+      break;
+      case 10:
+      break;
+      case 11:
+      break;
+      case 12:
+      break;
+      case 13:
+      break;
+      default:
+      break;
+
     }
+
+
+
   }
 }
 /** NUMBER ERROR HANDLER reference

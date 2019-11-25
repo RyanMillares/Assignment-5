@@ -227,7 +227,7 @@ bool GenLinkedList<T>::IsInList(T d){
   }
   ListNode<T>* curr = front;
   while(curr != NULL){
-    if(curr == d){
+    if(curr->data == d){
       return true;
     }
     curr = curr->next;

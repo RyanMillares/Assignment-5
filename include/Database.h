@@ -16,13 +16,13 @@ public:
 
   void PrintStudents(TreeNode<Student>* node); //done, tested
   void PrintFaculty(TreeNode<Faculty>* node); //done, tested
-  void FindStudent(int id);//done, not tested
-  void FindFaculty(int id);//done, not tested
+  void FindStudent();//done, not tested
+  void FindFaculty();//done, not tested
   void FindAdvisor(int ids);
   void FindAdvisees(int idf);
-  void AddStudent(Student student); //done, tested
+  void AddStudent(); //done, tested
   void DeleteStudent(int id); //done, not tested
-  void AddFaculty(Faculty faculty); //done, tested
+  void AddFaculty(); //done, tested
   void DeleteFaculty(int id); //done, not tested
   void ChangeAdvisor(int ids, int idf);//done, not tested
   void RemoveAdvisee(int ids, int idf); //done, not tested
@@ -30,6 +30,7 @@ public:
   void ExitProgram(); //
 
   void RunProgram();
+  void PrintMenu();
 
   //void NumberCheck()
 

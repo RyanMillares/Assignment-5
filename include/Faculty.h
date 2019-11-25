@@ -3,6 +3,7 @@ using namespace std;
 class Faculty{
 public:
   int facultyId;
+  int numOfAdvisees;
   string name;
   string level;
   string department;
@@ -13,9 +14,11 @@ public:
 
   void addAdvisee(int newId);
   void PrintFacultyData();
+  bool CheckAdvisees();
   void deleteAdvisee(int id);
+  void ListAdviseeIds();
 
-private:
+
 
   GenLinkedList<int>* adviseeList;
 };
