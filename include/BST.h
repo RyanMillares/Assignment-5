@@ -7,7 +7,8 @@ public:
   BST();
   ~BST();
 
-  bool search(int k);
+  T search(int k);
+  bool IsPresent(int k);
   void insert(TreeNode<T>* node);
 
   //delete placeholder
@@ -23,6 +24,7 @@ public:
   bool deleteNode(int value);
   void printTree();
   void recPrint(TreeNode<T>* node);
+  int getSize();
 
 
 };
@@ -35,6 +37,10 @@ template <class T>
 BST<T>::~BST(){
   delete root;
 
+}
+template <class T>
+int BST<T>::getSize(){
+  return size;
 }
 template <class T>
 void BST<T>::recPrint(TreeNode<T> *node){
@@ -117,7 +123,7 @@ void BST<T>::insert(TreeNode<T>* node){
 }
 
 template <class T>
-bool BST<T>::search(int k){
+bool BST<T>::IsPresent(int k){
   if(root == NULL){
     return false;
   }
@@ -138,7 +144,28 @@ bool BST<T>::search(int k){
     return true;
   }
 }
-
+template <class T>
+T BST<T>::search(int k){
+  T useless;
+  if(IsPresent(k)){
+    TreeNode<T> *node = root;
+    while(node->key != k){
+      //go left if key is less than current node
+      if(k < node->key){
+        node = node->left;
+      }
+      else{ //this means it is more than current node key
+        node = node->right;
+      }
+    }
+    //reach here when node is found
+    return node->data;
+  }
+  else{
+    cout << "Search failed." << endl;
+    return useless;
+  }
+}
 template <class T>
 bool BST<T>::deleteNode(int value){
   if(root == NULL){
@@ -214,8 +241,10 @@ bool BST<T>::deleteNode(int value){
       }
       successor->left = current->left;
     }
+    size--;
     return true;
   }
+
 
 
 }

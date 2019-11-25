@@ -12,6 +12,8 @@ public:
   ~Faculty();
 
   void addAdvisee(int newId);
+  void PrintFacultyData();
+  void deleteAdvisee(int id);
 
 private:
 

@@ -23,7 +23,11 @@ void Student::setAdvisor(int newId){
 }
 
 void Student::PrintStudentData(){
+  cout << "Student ID: " << studentId << endl;
   cout << "Name: " << name << endl;
+  cout << "Level: " << level << endl;
+  cout << "Major: " << major << endl;
+  cout << "GPA: " << gpa << endl;
 
 
 }

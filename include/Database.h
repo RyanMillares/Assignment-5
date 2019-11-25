@@ -14,8 +14,8 @@ public:
   void ReadInStudents();
   void ReadInFaculty();
 
-  void PrintStudents();
-  void PrintFaculty();
+  void PrintStudents(TreeNode<Student>* node); //done
+  void PrintFaculty(TreeNode<Faculty>* node); //done
   void FindStudent(int id);
   void FindFaculty(int id);
   void FindAdvisor(int id);
@@ -28,6 +28,8 @@ public:
   void RemoveAdvisee(int ids, int idf);
   void RollBack();
   void ExitProgram();
+
+  void RunProgram();
 
 
 };

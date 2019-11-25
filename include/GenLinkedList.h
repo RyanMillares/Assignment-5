@@ -13,7 +13,7 @@ public:
   //to make peek() easier maybe
   ListNode<T> *front;
   ListNode<T> *tail;
-
+  bool IsInList(T d);
   void insertFront(T d); //inserts element at the front
   void insertBack(T d); //inserts element at the back
   T removeFront(); //removes and returns front element
@@ -219,4 +219,18 @@ int GenLinkedList<T>::find(T d){
     idx = -1;
   }
   return idx;
+}
+template <class T>
+bool GenLinkedList<T>::IsInList(T d){
+  if(size == 0){
+    return false;
+  }
+  ListNode<T>* curr = front;
+  while(curr != NULL){
+    if(curr == d){
+      return true;
+    }
+    curr = curr->next;
+  }
+  return false;
 }
