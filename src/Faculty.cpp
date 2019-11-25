@@ -27,9 +27,10 @@ void Faculty::addAdvisee(int newId){
 void Faculty::PrintFacultyData(){
   cout << "Faculty ID:  " << facultyId << endl;
   cout << "Name: " << name << endl;
+  cout << "Level: " << level << endl;
 
 }
 void Faculty::deleteAdvisee(int id){
   adviseeList->deletePos(adviseeList->find(id));
-  
+
 }

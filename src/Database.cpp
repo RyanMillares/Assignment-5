@@ -190,7 +190,10 @@ void Database::RunProgram(){
       case 1: // let's print shit
         PrintStudents(masterStudent->root);
       break;
-      case 2: //let's add shit
+      case 2: //lets print the faculty
+        PrintFaculty(masterFaculty->root);
+      break;
+      case 3: //let's add shit
       while(true){
         cout << "ID: ";
         cin >> id;
@@ -219,6 +222,37 @@ void Database::RunProgram(){
         cin >> gpa;
         AddStudent(Student(id, name, level, major, gpa));
         cout << "Student added." << endl;
+
+
+      break;
+      case 4: //let's add the older ones
+      while(true){
+        cout << "ID: ";
+        cin >> id;
+        if(cin.fail()){
+          cout << "Please only put int value." << endl;
+          cin.clear();
+          cin.ignore(10000,'\n');
+        }
+        else{
+          cin.clear();
+          cin.ignore(10000,'\n');
+          break;
+        }
+      }
+      //https://stackoverflow.com/questions/9469264/c-cin-only-reads-the-first-word
+        cout << "Name: ";
+        getline(cin, name);
+
+        cout << "Level: ";
+
+        getline(cin, level);
+        cout << "Department: ";
+
+        getline(cin, department);
+
+        AddFaculty(Faculty(id, name, level, department));
+        cout << "Faculty added." << endl;
 
 
       break;
