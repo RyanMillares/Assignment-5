@@ -193,8 +193,7 @@ void Database::AddFaculty(){
   TreeNode<Faculty>* facultynode = new TreeNode<Faculty>(idF, Faculty(idF, nameF, levelF, department));
   masterFaculty->insert(facultynode);
   delete facultynode;
-  cin.clear();
-  cin.ignore(10000,'\n');
+
   //adds a faculty to database
 }
 

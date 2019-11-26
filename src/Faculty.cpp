@@ -59,12 +59,15 @@ bool Faculty::CheckAdvisees(){
 }
 void Faculty::ListAdviseeIds(){
   if(CheckAdvisees()){
-    cout << "Advisee IDs: " << endl;
+    cout <<    "Advisee IDs: " << endl;
     ListNode<int>* current = adviseeList->front;
     while(current != NULL){
-      cout << "  " << current->data;
+      cout << "     " << current->data;
       current = current->next;
 
     }
+  }
+  else{
+    //cout << "   This faculty has no advisees." << endl;
   }
 }
