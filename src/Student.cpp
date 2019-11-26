@@ -11,6 +11,7 @@ Student::Student(){
 }
 Student::Student(int id1, string name1, string level1, string major1, double gpa1){
   studentId = id1;
+  cout << studentId << endl;
   advisorId = -1;
   name = name1;
   level = level1;

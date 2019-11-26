@@ -40,20 +40,27 @@ void Database::PrintStudents(TreeNode<Student>* node){
 
 }
 void Database::PrintFaculty(TreeNode<Faculty>* node){
+  //masterFaculty->printTree();
+
   if(node != NULL){//tree exists
     //recursively print through the tree
     if(node->left != NULL){
+      cout << "left"<< endl;
       PrintFaculty(node->left);
+
     }
     node->data.PrintFacultyData();
     if(node->right != NULL){
+      cout << "right" << endl;
       PrintFaculty(node->right);
+
     }
   }
   else{
     cout << "There are no faculty in Faculty Database." << endl;
   }
   //print all faculty and their info
+
 }
 void Database::FindStudent(){
   int id;
@@ -143,10 +150,12 @@ void Database::AddStudent(){
     getline(cin, major);
     cout << "GPA: ";
     cin >> gpa;
+
   TreeNode<Student>* studentnode = new TreeNode<Student>(idS, Student(idS, nameS, levelS, major, gpa));
   masterStudent->insert(studentnode);
   cout << "Student added." << endl;
-  delete studentnode;
+  //delete studentnode;
+
   cin.clear();
   cin.ignore(10000,'\n');
   //adds a student to database
@@ -190,9 +199,11 @@ void Database::AddFaculty(){
 
   getline(cin, department);
 
+
   TreeNode<Faculty>* facultynode = new TreeNode<Faculty>(idF, Faculty(idF, nameF, levelF, department));
   masterFaculty->insert(facultynode);
-  delete facultynode;
+  //delete facultynode;
+
 
   //adds a faculty to database
 }
@@ -336,6 +347,7 @@ void Database::RunProgram(){
 
       break;
       case 5:
+
       break;
       case 6:
       break;

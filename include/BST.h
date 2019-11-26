@@ -97,7 +97,7 @@ void BST<T>::insert(TreeNode<T>* node){
   }
   else{ //tree is not empty, let's find insertion point
     TreeNode<T> *current = root;
-    TreeNode<T> *parent = NULL;
+    TreeNode<T> *parent;
     while(true){
       parent = current;
 

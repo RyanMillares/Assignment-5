@@ -5,7 +5,7 @@
 using namespace std;
 
 int main(){
-
+  /**
   BST<int> *tree = new BST<int>();
 
   for(int i = 0; i < 5; ++i){
@@ -29,10 +29,10 @@ int main(){
   //cout << "4" << endl;
   tree->deleteNode(5);
   tree->printTree();
+ **/
 
-
-  //Database db;
-  //db.RunProgram();
+  Database db;
+  db.RunProgram();
   //cout << "5" << endl;
 
   //tree->insert(Student(1283, 2313, "Ryan", "sophomore", "cs", 3.376));
@@ -40,5 +40,5 @@ int main(){
 
 
   cout << "lol" << endl;
-  delete tree;
+  //delete tree;
 }
