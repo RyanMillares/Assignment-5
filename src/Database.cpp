@@ -218,7 +218,34 @@ void Database::DeleteFaculty(int id){
       cout << "Faculty with ID " << id << " not found in database." << endl;
   }
 }
-void Database::ChangeAdvisor(int ids, int idf){
+void Database::ChangeAdvisor(){
+  int ids, idf;
+  while(true){
+    cout << "Please provide student ID" << endl;
+    cout << "ID: ";
+    cin >> ids;
+    if(cin.fail()){
+      cout << "Please only put int value." << endl;
+      cin.clear();
+      cin.ignore(10000,'\n');
+    }
+    else{
+      break;
+    }
+  }
+    while(true){
+      cout << "Please provide faculty ID of new advisor" << endl;
+      cout << "ID: ";
+      cin >> idf;
+      if(cin.fail()){
+        cout << "Please only put int value." << endl;
+        cin.clear();
+        cin.ignore(10000,'\n');
+      }
+      else{
+        break;
+      }
+    }
   //search for student of given id
   //if found, check if faculty id exists
   //if exists, add as setAdvisor
@@ -255,15 +282,35 @@ void Database::RemoveAdvisee(int ids, int idf){
   }
 }
 
-void Database::FindAdvisor(int ids){
+void Database::FindAdvisor(){
   //check if student id exists
   //if exists, return advisor info
+  int ids;
+  while(true){
+    cout << "ID: ";
+    cin >> ids;
+    if(cin.fail()){
+      cout << "Please only put int value." << endl;
+      cin.clear();
+      cin.ignore(10000,'\n');
+    }
+    else{
+      break;
+    }
+  }
   if(masterStudent->IsPresent(ids)){
     if(masterStudent->search(ids).advisorId != -1){
       masterFaculty->search(masterStudent->search(ids).advisorId).PrintFacultyData();
 
     }
+    else{
+      cout << "This student has no assigned advisor."<< endl;
+    }
   }
+  else{
+    cout << "No student exists with the provided student ID." << endl;
+  }
+
 }
 void Database::FindAdvisees(int idf){
   Faculty fac;
@@ -303,6 +350,11 @@ void Database::PrintMenu(){
   cout << "2 - Print all faculty members" << endl;
   cout << "3 - Add a student" << endl;
   cout << "4 - Add a faculty member" << endl;
+  cout << "5 - Retrieve student info" << endl;
+  cout << "6 - Retrieve faculty info" << endl;
+  cout << "7 - Change a student\'s advisor" << endl;
+  cout << "8 - List ID and info of student\'s advisor" << endl;
+
 }
 void Database::RunProgram(){
   //will have like all the sh**
@@ -344,16 +396,22 @@ void Database::RunProgram(){
       case 4:
         cout << "---Adding Faculty---\nPlease provide following info." << endl;
         AddFaculty();
-
       break;
       case 5:
-
+        cout << "---Finding Student---\nPlease provide following info." << endl;
+        FindStudent();
       break;
       case 6:
+        cout << "---Finding Faculty---\nPlease provide following info." << endl;
+        FindFaculty();
       break;
       case 7:
+        cout << "---Changing advisor---\n Please provide following info" << endl;
+        ChangeAdvisor();
       break;
       case 8:
+        cout << "---Listing Advisor Info---\nPlease provide following info." << endl;
+        FindAdvisor();
       break;
       case 9:
       break;

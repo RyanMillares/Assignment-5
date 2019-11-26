@@ -19,7 +19,6 @@ Faculty::Faculty(int id1, string name1, string level1, string department1){
   department = department1;
 
   adviseeList = new GenLinkedList<int>();
-  cout << facultyId << endl;
 
 }
 Faculty::~Faculty(){
@@ -34,7 +33,6 @@ void Faculty::addAdvisee(int newId){
 
 void Faculty::PrintFacultyData(){
   cout << "Faculty ID: " << facultyId << endl;
-  cout << "frick" << endl;
   //cout << "   " << name << ", "<< level << ", " << department << endl;
   cout << "  Name: " << name << endl;
   cout << "  Level: " << level << endl;
@@ -65,11 +63,13 @@ void Faculty::ListAdviseeIds(){
   if(CheckAdvisees()){
     cout <<    "Advisee IDs: " << endl;
     ListNode<int>* current = adviseeList->front;
+    cout << "   | ";
     while(current != NULL){
-      cout << "     " << current->data;
+      cout << current->data << " | ";
       current = current->next;
 
     }
+    cout << endl;
   }
   else{
     //cout << "   This faculty has no advisees." << endl;

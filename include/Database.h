@@ -16,15 +16,15 @@ public:
 
   void PrintStudents(TreeNode<Student>* node); //done, tested
   void PrintFaculty(TreeNode<Faculty>* node); //done, tested
-  void FindStudent();//done, not tested
-  void FindFaculty();//done, not tested
-  void FindAdvisor(int ids);
+  void FindStudent();//done, tested
+  void FindFaculty();//done, tested
+  void FindAdvisor();
   void FindAdvisees(int idf);
   void AddStudent(); //done, tested
-  void DeleteStudent(int id); //done, not tested
   void AddFaculty(); //done, tested
+  void DeleteStudent(int id); //done, not tested
   void DeleteFaculty(int id); //done, not tested
-  void ChangeAdvisor(int ids, int idf);//done, not tested
+  void ChangeAdvisor();//done, not tested
   void RemoveAdvisee(int ids, int idf); //done, not tested
   void RollBack(); //what the actual frick is this
   void ExitProgram(); //
