@@ -2,11 +2,14 @@
 #include "Student.h"
 #include "Faculty.h"
 
+
 using namespace std;
 class Database{
 public:
   BST<Student>* masterStudent;
   BST<Faculty>* masterFaculty;
+  GenLinkedList<BST<Student>>* masterStudentHistory;
+  GenLinkedList<BST<Faculty>>* masterFacultyHistory;
 //i give up making stuff private honestly
   Database();
   ~Database();
@@ -22,8 +25,8 @@ public:
   void FindAdvisees(int idf);
   void AddStudent(); //done, tested
   void AddFaculty(); //done, tested
-  void DeleteStudent(int id); //done, not tested
-  void DeleteFaculty(int id); //done, not tested
+  void DeleteStudent(); //done, not tested
+  void DeleteFaculty(); //done, not tested
   void ChangeAdvisor();//done, not tested
   void RemoveAdvisee(int ids, int idf); //done, not tested
   void RollBack(); //what the actual frick is this

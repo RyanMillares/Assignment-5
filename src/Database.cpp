@@ -5,13 +5,19 @@ using namespace std;
 Database::Database(){
   masterStudent = new BST<Student>();
   masterFaculty = new BST<Faculty>();
+  masterFacultyHistory = new GenLinkedList<BST<Faculty>>();
+  masterStudentHistory = new GenLinkedList<BST<Student>>();
+
 }
 Database::~Database(){
   delete masterStudent;
   delete masterFaculty;
+  delete masterStudentHistory;
+  delete masterFacultyHistory;
 }
 
 void Database::ReadInStudents(){
+  ifstream StudentFile;
   //search for file "studentTable"
   //if exists, read in data
 }
@@ -27,7 +33,7 @@ void Database::PrintStudents(TreeNode<Student>* node){
     if(node->left != NULL){
       PrintStudents(node->left);
     }
-    node->data.PrintStudentData();
+    node->data->PrintStudentData();
     //cout << "-----------------------------" << endl;
     if(node->right != NULL){
       PrintStudents(node->right);
@@ -45,13 +51,11 @@ void Database::PrintFaculty(TreeNode<Faculty>* node){
   if(node != NULL){//tree exists
     //recursively print through the tree
     if(node->left != NULL){
-      cout << "left"<< endl;
       PrintFaculty(node->left);
 
     }
-    node->data.PrintFacultyData();
+    node->data->PrintFacultyData();
     if(node->right != NULL){
-      cout << "right" << endl;
       PrintFaculty(node->right);
 
     }
@@ -83,7 +87,7 @@ void Database::FindStudent(){
   }
   else{
     if(masterStudent->IsPresent(id)){
-      masterStudent->search(id).PrintStudentData();
+      masterStudent->search(id)->PrintStudentData();
     }
     else{
       cout << "Student with ID " << id << " not found in database." << endl;
@@ -112,7 +116,7 @@ void Database::FindFaculty(){
   }
   else{
     if(masterFaculty->IsPresent(id)){
-      masterFaculty->search(id).PrintFacultyData();
+      masterFaculty->search(id)->PrintFacultyData();
     }
     else{
       cout << "Faculty with ID " << id << " not found in database." << endl;
@@ -121,7 +125,7 @@ void Database::FindFaculty(){
   }
 }
 void Database::AddStudent(){
-  int idS;
+  int idS, idF;
   string nameS, levelS, major;
   double gpa;
   while(true){
@@ -133,9 +137,18 @@ void Database::AddStudent(){
       cin.ignore(10000,'\n');
     }
     else{
-      cin.clear();
-      cin.ignore(10000,'\n');
-      break;
+      if(idS < 0){
+        cout << "Please only provide positive int for ID." << endl;
+        cin.clear();
+        cin.ignore(10000,'\n');
+      }
+      else{
+        cin.clear();
+        cin.ignore(10000,'\n');
+        break;
+      }
+
+
     }
   }
   //https://stackoverflow.com/questions/9469264/c-cin-only-reads-the-first-word
@@ -148,11 +161,41 @@ void Database::AddStudent(){
     cout << "Major: ";
 
     getline(cin, major);
-    cout << "GPA: ";
-    cin >> gpa;
+    while(true){
+      cout << "GPA: ";
+      cin >> gpa;
+      if(cin.fail()){
+        cout << "Please only put int value." << endl;
+        cin.clear();
+        cin.ignore(10000,'\n');
+      }
+      else{
+        if(idS < 0){
+          cout << "Please only provide positive value for GPA." << endl;
+          cin.clear();
+          cin.ignore(10000,'\n');
+        }
+        else{
+          cin.clear();
+          cin.ignore(10000,'\n');
+          break;
+        }
+      }
+    }
+      cout << "If no assigned advisor, put 0" << endl;
+      cout << "Advisor\'s ID: ";
+      cin >> idF;
+      if(!masterFaculty->IsPresent(idF)){
+        cout << "No faculty has that ID, student added without advisor." << endl;
+        idF = 0;
+      }
 
-  TreeNode<Student>* studentnode = new TreeNode<Student>(idS, Student(idS, nameS, levelS, major, gpa));
+    Student* studentinfo = new Student(idS, nameS, levelS, major, gpa, idF);
+  TreeNode<Student>* studentnode = new TreeNode<Student>(idS, studentinfo);
   masterStudent->insert(studentnode);
+  if(masterFaculty->IsPresent(idF)){
+    masterFaculty->search(idF)->adviseeList->insertFront(idF);
+  }
   cout << "Student added." << endl;
   //delete studentnode;
 
@@ -161,16 +204,34 @@ void Database::AddStudent(){
   //adds a student to database
 }
 
-void Database::DeleteStudent(int id){
+void Database::DeleteStudent(){
   //check if id exists in tree
   //if exists, deletes a student given the id
+  int id;
+  while(true){
+    cout << "Please provide ID of student to be deleted" << endl;
+    cout << "ID: ";
+    cin >> id;
+    if(cin.fail()){
+      cout << "Please only put int value." << endl;
+      cin.clear();
+      cin.ignore(10000,'\n');
+    }
+    else{
+      break;
+    }
+  }
   if(masterStudent->IsPresent(id)){
+    if(masterStudent->search(id)->hasAdvisor){
+      masterFaculty->search(masterStudent->search(id)->advisorId)->deleteAdvisee(id);
+    }
     masterStudent->deleteNode(id);
   }
   else{
       cout << "Student with ID " << id << " not found in database." << endl;
   }
 }
+
 
 void Database::AddFaculty(){
   int idF;
@@ -199,8 +260,8 @@ void Database::AddFaculty(){
 
   getline(cin, department);
 
-
-  TreeNode<Faculty>* facultynode = new TreeNode<Faculty>(idF, Faculty(idF, nameF, levelF, department));
+  Faculty* facinfo = new Faculty(idF, nameF, levelF, department);
+  TreeNode<Faculty>* facultynode = new TreeNode<Faculty>(idF, facinfo);
   masterFaculty->insert(facultynode);
   //delete facultynode;
 
@@ -208,10 +269,28 @@ void Database::AddFaculty(){
   //adds a faculty to database
 }
 
-void Database::DeleteFaculty(int id){
+void Database::DeleteFaculty(){
   //checks if id exists in tree
   //if exists, deletes a faculty given the id
+  int id;
+  while(true){
+    cout << "Please provide ID of faculty to be deleted" << endl;
+    cout << "ID: ";
+    cin >> id;
+    if(cin.fail()){
+      cout << "Please only put int value." << endl;
+      cin.clear();
+      cin.ignore(10000,'\n');
+    }
+    else{
+      break;
+    }
+  }
   if(masterFaculty->IsPresent(id)){
+    for(int i = 0; i < masterFaculty->search(id)->numOfAdvisees; ++i){
+      masterStudent->search(masterFaculty->search(id)->adviseeList->removeFront())->ResetAdvisor();
+    }
+
     masterFaculty->deleteNode(id);
   }
   else{
@@ -252,9 +331,9 @@ void Database::ChangeAdvisor(){
   if(masterStudent->IsPresent(ids)){
     if(masterFaculty->IsPresent(idf)){
       //code
-      masterStudent->search(ids).setAdvisor(idf);
-      masterFaculty->search(idf).addAdvisee(ids);
-      cout << masterStudent->search(ids).name << "\'s advisor changed to " << masterFaculty->search(idf).name << endl;
+      masterStudent->search(ids)->setAdvisor(idf);
+      masterFaculty->search(idf)->addAdvisee(ids);
+      cout << masterStudent->search(ids)->name << "\'s advisor changed to " << masterFaculty->search(idf)->name << endl;
     }
     else{
       cout << "Invalid faculty ID provided." << endl;
@@ -271,7 +350,8 @@ void Database::RemoveAdvisee(int ids, int idf){
   //if exists, removes
   if(masterStudent->IsPresent(ids)){
     if(masterFaculty->IsPresent(idf)){
-      masterFaculty->search(idf).deleteAdvisee(ids);
+      masterFaculty->search(idf)->deleteAdvisee(ids);
+      masterStudent->search(ids)->ResetAdvisor();
     }
     else{
       cout << "Invalid faculty ID provided." << endl;
@@ -299,8 +379,8 @@ void Database::FindAdvisor(){
     }
   }
   if(masterStudent->IsPresent(ids)){
-    if(masterStudent->search(ids).advisorId != -1){
-      masterFaculty->search(masterStudent->search(ids).advisorId).PrintFacultyData();
+    if(masterStudent->search(ids)->advisorId != 0){
+      masterFaculty->search(masterStudent->search(ids)->advisorId)->PrintFacultyData();
 
     }
     else{
@@ -313,17 +393,17 @@ void Database::FindAdvisor(){
 
 }
 void Database::FindAdvisees(int idf){
-  Faculty fac;
+  Faculty *fac;
   //check if teacher id exsits
   //if so, return all them
   if(masterFaculty->IsPresent(idf)){
     fac = masterFaculty->search(idf);
-    if(fac.CheckAdvisees()){
-      cout << "Advisees: " << fac.numOfAdvisees << endl;
-      ListNode<int>* current = fac.adviseeList->front;
-      for(int i = 0; i < fac.numOfAdvisees; ++i){
+    if(fac->CheckAdvisees()){
+      cout << "Advisees: " << fac->numOfAdvisees << endl;
+      ListNode<int>* current = fac->adviseeList->front;
+      for(int i = 0; i < fac->numOfAdvisees; ++i){
         cout << "   " << i << ") ";
-        masterStudent->search(current->data).PrintStudentData();
+        masterStudent->search(current->data)->PrintStudentData();
       }
 
     }
@@ -352,8 +432,10 @@ void Database::PrintMenu(){
   cout << "4 - Add a faculty member" << endl;
   cout << "5 - Retrieve student info" << endl;
   cout << "6 - Retrieve faculty info" << endl;
-  cout << "7 - Change a student\'s advisor" << endl;
-  cout << "8 - List ID and info of student\'s advisor" << endl;
+  cout << "7 - Delete a student" << endl;
+  cout << "8 - Delete a faculty member" << endl;
+  cout << "9 - Change a student\'s advisor" << endl;
+  cout << "10 - List ID and info of student\'s advisor" << endl;
 
 }
 void Database::RunProgram(){
@@ -406,16 +488,20 @@ void Database::RunProgram(){
         FindFaculty();
       break;
       case 7:
+        cout << "---Deleting Student---\nPlease provide following info." << endl;
+        DeleteStudent();
+      break;
+      case 8:
+        cout << "---Deleting Faculty---\nPlease provide following info." << endl;
+        DeleteFaculty();
+      break;
+      case 9:
         cout << "---Changing advisor---\n Please provide following info" << endl;
         ChangeAdvisor();
       break;
-      case 8:
+      case 10:
         cout << "---Listing Advisor Info---\nPlease provide following info." << endl;
         FindAdvisor();
-      break;
-      case 9:
-      break;
-      case 10:
       break;
       case 11:
       break;

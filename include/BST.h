@@ -7,7 +7,7 @@ public:
   BST();
   ~BST();
 
-  T search(int k);
+  T* search(int k);
   bool IsPresent(int k);
   void insert(TreeNode<T>* node);
 
@@ -25,6 +25,7 @@ public:
   void printTree();
   void recPrint(TreeNode<T>* node);
   int getSize();
+  void DeleteRoot();
 
 
 };
@@ -100,7 +101,6 @@ void BST<T>::insert(TreeNode<T>* node){
     TreeNode<T> *parent;
     while(true){
       parent = current;
-
       if(node->key < current->key){
         //we go left
         current = current->left;
@@ -116,7 +116,6 @@ void BST<T>::insert(TreeNode<T>* node){
             break;
           }
         }
-
     }
   }
   size++;
@@ -145,7 +144,7 @@ bool BST<T>::IsPresent(int k){
   }
 }
 template <class T>
-T BST<T>::search(int k){
+T* BST<T>::search(int k){
   T useless;
   if(IsPresent(k)){
     TreeNode<T> *node = root;
@@ -163,32 +162,40 @@ T BST<T>::search(int k){
   }
   else{
     cout << "Search failed." << endl;
-    return useless;
+    return NULL;
   }
 }
 template <class T>
 bool BST<T>::deleteNode(int value){
+
   if(root == NULL){
     return false;
 
   }
   TreeNode<T> *parent = root;
   TreeNode<T> *current = root;
+  TreeNode<T> *theRoot;
+  TreeNode<T> *hold;
+  bool isDone = false;
   bool isLeft = true;
 
   while(current->key != value){
+    cout << "is run" << endl;
     parent = current;
-    if(value < current->key){
+    if(value < current->key){ //is to  the left
       isLeft = true;
       current = current->left;
     }
-    else{
+    else if(value > current->key){ //is to the right
       isLeft = false;
       current = current->right;
     }
+
     if(current == NULL){
       return false;
     }
+  }
+
     //if we make it hear, we found the node to delete
     if(current->left == NULL && current->right == NULL){
       //then node is leaf, no children
@@ -226,11 +233,18 @@ bool BST<T>::deleteNode(int value){
         parent->right = current->left;
       }
     }
+    else if(current == root){
+
+      DeleteRoot();
+
+    }
     else{
+      cout << "is root" << endl;
       //the node to be deleted has 2 children, at this state the cortisol increase exponentially
       TreeNode<T> *successor = getSuccessor(current);
       if(current == root){
         root = successor;
+
 
       }
       else if(isLeft){
@@ -243,7 +257,7 @@ bool BST<T>::deleteNode(int value){
     }
     size--;
     return true;
-  }
+
 
 
 
@@ -267,3 +281,69 @@ TreeNode<T>* BST<T>::getSuccessor(TreeNode<T> *d){// d is node to delete
   }
   return successor;
 } // d is node to delete
+
+template <class T>
+//take the root
+void BST<T>::DeleteRoot(){
+
+  TreeNode<T>* current = root;
+  TreeNode<T>* child;
+  TreeNode<T>* hold;
+  TreeNode<T>* hold1;
+  //case 1: tree of one
+  cout << size << endl;
+  if(size == 1){
+    cout << "test" << endl;
+    current = NULL;
+    root = NULL;
+  }
+  //case 2: only left subtree
+  else if(current->left != NULL && current->right == NULL){
+    root = current->left;
+    current = NULL;
+  }
+    //case 3: only right subtree
+  else if(current->left == NULL && current->right != NULL){
+    root = current->right;
+    current = NULL;
+  }
+  //case 4: left and right
+  else if(current->left != NULL && current->right != NULL){
+    cout << "has both" << endl;
+    child = current->right;
+    if(child->left == NULL){ //right subtree has only right subtree
+      root = child;
+      root->left = current->left;
+      current = NULL;
+    }
+    else{ //right subtree has left AND right
+      while(child->left != NULL){
+        //go until child is next one
+        hold = child;
+        child = child->left;
+      }
+      if(child->right == NULL){ //is a leaf node
+        //we can swappy swap
+        hold = child;
+        child = NULL;
+        hold->right = current->right;
+        hold->left = current->left;
+        root = hold;
+        hold = NULL;
+        current = NULL;
+
+      }
+      else{ //it has a right node
+        hold1 = child;
+        child = child->right;
+        hold1->right = current->right;
+        hold1->left = current->left;
+        root = hold1;
+        current = NULL;
+        //this was painful and im leaving this comment here so you know it was
+
+      }
+    }
+
+  }
+}

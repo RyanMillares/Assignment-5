@@ -18,7 +18,9 @@ public:
   void deleteAdvisee(int id);
   void ListAdviseeIds();
 
-
-
   GenLinkedList<int>* adviseeList;
 };
+bool operator> (Faculty& f1, Faculty& f2);
+bool operator< (Faculty& f1, Faculty& f2);
+bool operator== (Faculty& f1, Faculty& f2);
+bool operator!= (Faculty& f1, Faculty& f2);

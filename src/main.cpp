@@ -33,12 +33,19 @@ int main(){
 
   Database db;
   db.RunProgram();
+  /**
+  Student *hi = new Student(5217, "Ryan", "Sophomore", "Computer science", 3.0, 123);
+  hi->PrintStudentData();
+  hi->ResetAdvisor();
+  hi->PrintStudentData();
+  hi->setAdvisor(5432);
+  hi->PrintStudentData();
+  **/
   //cout << "5" << endl;
 
   //tree->insert(Student(1283, 2313, "Ryan", "sophomore", "cs", 3.376));
   //tree->insert(Student(3245, 3521, "Noah", "freshman", "games", 4.000));
 
 
-  cout << "lol" << endl;
   //delete tree;
 }

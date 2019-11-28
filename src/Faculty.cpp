@@ -42,14 +42,13 @@ void Faculty::PrintFacultyData(){
 
 void Faculty::deleteAdvisee(int id){
   if(adviseeList->IsInList(id)){
+    cout << adviseeList->find(id) << endl;
     adviseeList->deletePos(adviseeList->find(id));
     numOfAdvisees--;
   }
   else{
-    cout << "This faculty has no advisee with ID " << id << endl;
+    //cout << "This faculty has no advisee with ID " << id << endl;
   }
-
-
 }
 bool Faculty::CheckAdvisees(){
   //list all the advisees of list
@@ -74,4 +73,16 @@ void Faculty::ListAdviseeIds(){
   else{
     //cout << "   This faculty has no advisees." << endl;
   }
+}
+bool operator>(Faculty& f1, Faculty& f2){
+  return (f1.facultyId > f2.facultyId);
+}
+bool operator<(Faculty& f1, Faculty& f2){
+  return (f1.facultyId < f2.facultyId);
+}
+bool operator==(Faculty& f1, Faculty& f2){
+  return (f1.facultyId == f2.facultyId);
+}
+bool operator!=(Faculty& f1, Faculty& f2){
+  return (f1.facultyId != f2.facultyId);
 }
