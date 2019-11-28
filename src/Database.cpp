@@ -463,7 +463,7 @@ void Database::FindAdvisees(){
       cout << "Advisees: " << fac->numOfAdvisees << endl;
       ListNode<int>* current = fac->adviseeList->front;
       for(int i = 0; i < fac->numOfAdvisees; ++i){
-        cout << "   " << i << ") ";
+        cout << "   " << i + 1 << ") ";
         masterStudent->search(current->data)->PrintStudentData();
       }
     }
@@ -480,9 +480,13 @@ void Database::RollBack(){
   cout << "There were " << masterStudentHistory->front->data->size << " students" << endl;
   if(masterFacultyHistory->getSize() > 0){
     masterFaculty = masterFacultyHistory->removeFront();
+    masterFaculty = masterFacultyHistory->removeFront();
+
   }
   if(masterStudentHistory->getSize() > 0){
     masterStudent = masterStudentHistory->removeFront();
+    masterStudent = masterStudentHistory->removeFront();
+
   }
 
 }
@@ -516,14 +520,8 @@ void Database::RunProgram(){
   //will have like all the sh**
   //check for studentTable and facultyTable
   //read in files if existing
-  int idS, idF;
-  int choice;
-  string nameS, levelS;
-  string nameF, levelF;
-  string major;
-  string department;
-  double gpa;
 
+  int choice;
 
   while(choice != 14){
     PrintMenu();
