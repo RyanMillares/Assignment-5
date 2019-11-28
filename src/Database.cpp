@@ -579,8 +579,8 @@ void Database::PrintMenu(){
   cout << "11 - List info of all a faculty\'s advisees" << endl;
   cout << "12 - Remove an advisee from a faculty\'s advisee list" << endl;
   cout << "13 - Rollback" << endl;
-  cout << "14 - I accidentally rollbacked" << endl;
-  cout << "15 - Exit" << endl;
+//  cout << "14 - I accidentally rollbacked" << endl;
+  cout << "14 - Exit" << endl;
 
 }
 void Database::RunProgram(){
@@ -663,11 +663,13 @@ void Database::RunProgram(){
         RollBack();
       break;
       case 14:
-      break;
-      case 15:
         cout << "---Exiting---" << endl;
         ExitProgram();
+      break;
+
+
       default:
+        cout << "Not valid option" << endl;
       break;
 
     }
