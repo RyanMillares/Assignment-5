@@ -17,17 +17,84 @@ Database::~Database(){
 }
 
 void Database::ReadInStudents(){
+  cout << "---Reading in Student Table---" << endl;
+  string currentLine, name, major, level;
+  int ids, advisor;
+  double gpa;
   ifstream StudentFile;
+  StudentFile.open("studentTable.txt"); //find the file
+  if(StudentFile.is_open()){ //ifthe stream is linked properly
+    //first line should be number of students
+    getline(StudentFile, currentLine);
+    for(int i = 0; i < stoi(currentLine); ++i){
+      //assuming the lines are in order as such
+      //id, name, level, major, gpa, advisor ID
+      getline(StudentFile, currentLine);
+      ids = stoi(currentLine);
+      getline(StudentFile, currentLine);
+      name = currentLine;
+      getline(StudentFile, currentLine);
+      level = currentLine;
+      getline(StudentFile, currentLine);
+      major = currentLine;
+      getline(StudentFile, currentLine);
+      gpa = stod(currentLine);
+      getline(StudentFile, currentLine);
+      advisor = stoi(currentLine);
+      Student *newGuy = new Student(ids, name, level, major, gpa, advisor);
+      TreeNode<Student>* newNode = new TreeNode<Student>(newGuy->studentId, newGuy);
+      masterStudent->insert(newNode);
+    }
+    StudentFile.close();
+  }
+
   //search for file "studentTable"
   //if exists, read in data
+  cout << "---Student table read into database---" << endl;
 }
 void Database::ReadInFaculty(){
   //search for file "facultyTable"
   //if exists, read in data
+  cout << "---Reading in Faculty table---" << endl;
+  int id, numAdvisees;
+  string name, level, department, currentLine;
+
+  ifstream FacultyFile;
+  FacultyFile.open("facultyTable.txt");
+  if(FacultyFile.is_open()){
+    //assuming order of lines is in
+    //after number of faculty
+    //id, name, leve, department, number of advisees, all advisee IDs
+    getline(FacultyFile, currentLine);
+    for(int i = 0; i < stoi(currentLine); ++i){
+      getline(FacultyFile, currentLine);
+      id = stoi(currentLine);
+      getline(FacultyFile, currentLine);
+      name = currentLine;
+      getline(FacultyFile, currentLine);
+      level = currentLine;
+      getline(FacultyFile, currentLine);
+      department = currentLine;
+      Faculty *facs = new Faculty(id, name, level, department);
+      getline(FacultyFile, currentLine); //number of advisees
+      numAdvisees = stoi(currentLine);
+      for(int j = 0; j < numAdvisees; ++j){
+
+        getline(FacultyFile, currentLine);
+        facs->adviseeList->insertFront(stoi(currentLine));
+
+
+      }
+      TreeNode<Faculty>* facnode = new TreeNode<Faculty>(facs->facultyId, facs);
+      masterFaculty->insert(facnode);
+    }
+
+  }
+  cout << "---Faculty table read into database---" << endl;
 }
 void Database::SaveTrees(BST<Student>* students, BST<Faculty>* faculties){
   masterStudentHistory->insertFront(students);
-  cout << "hi" << endl;
+
   if(masterStudentHistory->getSize() > 5){
     masterStudentHistory->removeBack();
   }
@@ -517,6 +584,8 @@ void Database::PrintMenu(){
 
 }
 void Database::RunProgram(){
+  ReadInStudents();
+  ReadInFaculty();
   //will have like all the sh**
   //check for studentTable and facultyTable
   //read in files if existing
@@ -595,6 +664,9 @@ void Database::RunProgram(){
       break;
       case 14:
       break;
+      case 15:
+        cout << "---Exiting---" << endl;
+        ExitProgram();
       default:
       break;
 

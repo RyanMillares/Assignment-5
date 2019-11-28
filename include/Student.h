@@ -13,7 +13,8 @@ public:
 
   Student();
   Student(int id1, string name1, string level1, string major1, double gpa1, int adId);
-
+  ~Student();
+  
   void setAdvisor(int newId);
   void PrintStudentData();
   void ResetAdvisor();

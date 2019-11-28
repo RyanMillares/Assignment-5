@@ -22,8 +22,9 @@ Faculty::Faculty(int id1, string name1, string level1, string department1){
 
 }
 Faculty::~Faculty(){
-  //delete adviseeList;
+  delete adviseeList;
   //removed to prevent invalid pointer error
+  //jk it works now apparently
 }
 
 void Faculty::addAdvisee(int newId){
@@ -34,9 +35,9 @@ void Faculty::addAdvisee(int newId){
 void Faculty::PrintFacultyData(){
   cout << "Faculty ID: " << facultyId << endl;
   //cout << "   " << name << ", "<< level << ", " << department << endl;
-  cout << "  Name: " << name << endl;
-  cout << "  Level: " << level << endl;
-  cout << " Department: " << department << endl;
+  cout << "   Name: " << name << endl;
+  cout << "   Level: " << level << endl;
+  cout << "   Department: " << department << endl;
   ListAdviseeIds();
 }
 

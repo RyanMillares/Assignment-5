@@ -16,15 +16,10 @@ int main(){
     else{
       j = -i + 5;
     }
-
     int num = j;
     TreeNode<int>* node = new TreeNode<int>(j, num);
-
     tree->insert(node);
-
-
   }
-
   //tree->insert(9);
   //cout << "4" << endl;
   tree->deleteNode(5);
