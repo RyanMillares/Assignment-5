@@ -283,7 +283,6 @@ TreeNode<T>* BST<T>::getSuccessor(TreeNode<T> *d){// d is node to delete
 } // d is node to delete
 
 template <class T>
-//take the root
 void BST<T>::DeleteRoot(){
 
   TreeNode<T>* current = root;
@@ -341,7 +340,6 @@ void BST<T>::DeleteRoot(){
         root = hold1;
         current = NULL;
         //this was painful and im leaving this comment here so you know it was
-
       }
     }
 

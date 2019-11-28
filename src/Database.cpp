@@ -5,8 +5,8 @@ using namespace std;
 Database::Database(){
   masterStudent = new BST<Student>();
   masterFaculty = new BST<Faculty>();
-  masterFacultyHistory = new GenLinkedList<BST<Faculty>>();
-  masterStudentHistory = new GenLinkedList<BST<Student>>();
+  masterFacultyHistory = new GenLinkedList<BST<Faculty>*>();
+  masterStudentHistory = new GenLinkedList<BST<Student>*>();
 
 }
 Database::~Database(){
@@ -25,6 +25,23 @@ void Database::ReadInFaculty(){
   //search for file "facultyTable"
   //if exists, read in data
 }
+void Database::SaveTrees(BST<Student>* students, BST<Faculty>* faculties){
+  masterStudentHistory->insertFront(students);
+  cout << "hi" << endl;
+  if(masterStudentHistory->getSize() > 5){
+    masterStudentHistory->removeBack();
+  }
+  /** dont we all love pointerssss
+  if(masterStudentHistory->front->data->root != NULL){
+    cout << masterStudentHistory->front->data->root->data->studentId<< endl;
+  }
+  **/
+  masterFacultyHistory->insertFront(faculties);
+  if(masterFacultyHistory->getSize() > 5){
+    masterFacultyHistory->removeBack();
+  }
+}
+
 //must take in root to work
 void Database::PrintStudents(TreeNode<Student>* node){
   //TreeNode<Student>* node = masterStudent->root;
@@ -125,6 +142,7 @@ void Database::FindFaculty(){
   }
 }
 void Database::AddStudent(){
+
   int idS, idF;
   string nameS, levelS, major;
   double gpa;
@@ -205,6 +223,7 @@ void Database::AddStudent(){
 }
 
 void Database::DeleteStudent(){
+
   //check if id exists in tree
   //if exists, deletes a student given the id
   int id;
@@ -234,6 +253,7 @@ void Database::DeleteStudent(){
 
 
 void Database::AddFaculty(){
+
   int idF;
   string nameF, levelF, department;
   while(true){
@@ -270,6 +290,7 @@ void Database::AddFaculty(){
 }
 
 void Database::DeleteFaculty(){
+
   //checks if id exists in tree
   //if exists, deletes a faculty given the id
   int id;
@@ -298,6 +319,7 @@ void Database::DeleteFaculty(){
   }
 }
 void Database::ChangeAdvisor(){
+
   int ids, idf;
   while(true){
     cout << "Please provide student ID" << endl;
@@ -344,10 +366,36 @@ void Database::ChangeAdvisor(){
   }
 
 }
-void Database::RemoveAdvisee(int ids, int idf){
+void Database::RemoveAdvisee(){
+
   //checks if faculty if exists
   //if exists, checks if provided id exists in list
   //if exists, removes
+  int ids, idf;
+  while(true){
+    cout << "Faculty ID: ";
+    cin >> idf;
+    if(cin.fail()){
+      cout << "Please only put int value." << endl;
+      cin.clear();
+      cin.ignore(10000,'\n');
+    }
+    else{
+      break;
+    }
+  }
+  while(true){
+    cout << "Advisee student ID: ";
+    cin >> ids;
+    if(cin.fail()){
+      cout << "Please only put int value." << endl;
+      cin.clear();
+      cin.ignore(10000,'\n');
+    }
+    else{
+      break;
+    }
+  }
   if(masterStudent->IsPresent(ids)){
     if(masterFaculty->IsPresent(idf)){
       masterFaculty->search(idf)->deleteAdvisee(ids);
@@ -392,7 +440,20 @@ void Database::FindAdvisor(){
   }
 
 }
-void Database::FindAdvisees(int idf){
+void Database::FindAdvisees(){
+  int idf;
+  while(true){
+    cout << "Faculty ID: ";
+    cin >> idf;
+    if(cin.fail()){
+      cout << "Please only put int value." << endl;
+      cin.clear();
+      cin.ignore(10000,'\n');
+    }
+    else{
+      break;
+    }
+  }
   Faculty *fac;
   //check if teacher id exsits
   //if so, return all them
@@ -405,9 +466,7 @@ void Database::FindAdvisees(int idf){
         cout << "   " << i << ") ";
         masterStudent->search(current->data)->PrintStudentData();
       }
-
     }
-
       //masterStudent->search(masterFaculty->search(idf).advisorId).PrintFacultyData();
       //note to self, add function in faculty.cpp to print all advisees
 
@@ -417,11 +476,21 @@ void Database::FindAdvisees(int idf){
 
 void Database::RollBack(){
   //yahh it's rewind time
+  cout << "roll" << endl;
+  cout << "There were " << masterStudentHistory->front->data->size << " students" << endl;
+  if(masterFacultyHistory->getSize() > 0){
+    masterFaculty = masterFacultyHistory->removeFront();
+  }
+  if(masterStudentHistory->getSize() > 0){
+    masterStudent = masterStudentHistory->removeFront();
+  }
 
 }
 void Database::ExitProgram(){
   //exist
   //I MEAN EXIT WTF
+  cout << "Exiting database, deleting all your data." << endl;
+  exit(0);
 }
 
 void Database::PrintMenu(){
@@ -436,6 +505,11 @@ void Database::PrintMenu(){
   cout << "8 - Delete a faculty member" << endl;
   cout << "9 - Change a student\'s advisor" << endl;
   cout << "10 - List ID and info of student\'s advisor" << endl;
+  cout << "11 - List info of all a faculty\'s advisees" << endl;
+  cout << "12 - Remove an advisee from a faculty\'s advisee list" << endl;
+  cout << "13 - Rollback" << endl;
+  cout << "14 - I accidentally rollbacked" << endl;
+  cout << "15 - Exit" << endl;
 
 }
 void Database::RunProgram(){
@@ -472,10 +546,12 @@ void Database::RunProgram(){
         PrintFaculty(masterFaculty->root);
       break;
       case 3:
+        SaveTrees(masterStudent, masterFaculty);
         cout << "---Adding Student---\nPlease provide following info." << endl;
         AddStudent();
       break;
       case 4:
+        SaveTrees(masterStudent, masterFaculty);
         cout << "---Adding Faculty---\nPlease provide following info." << endl;
         AddFaculty();
       break;
@@ -488,15 +564,18 @@ void Database::RunProgram(){
         FindFaculty();
       break;
       case 7:
+        SaveTrees(masterStudent, masterFaculty);
         cout << "---Deleting Student---\nPlease provide following info." << endl;
         DeleteStudent();
       break;
       case 8:
+        SaveTrees(masterStudent, masterFaculty);
         cout << "---Deleting Faculty---\nPlease provide following info." << endl;
         DeleteFaculty();
       break;
       case 9:
-        cout << "---Changing advisor---\n Please provide following info" << endl;
+        SaveTrees(masterStudent, masterFaculty);
+        cout << "---Changing advisor---\nPlease provide following info" << endl;
         ChangeAdvisor();
       break;
       case 10:
@@ -504,10 +583,19 @@ void Database::RunProgram(){
         FindAdvisor();
       break;
       case 11:
+        cout << "---Listing all Advisee Info---\nPlease provide following info." << endl;
+        FindAdvisees();
       break;
       case 12:
+        SaveTrees(masterStudent, masterFaculty);
+        cout << "---Removing an Advisee---\nPlease provide following info." << endl;
+        RemoveAdvisee();
       break;
       case 13:
+        cout << "---Rollback---" << endl;
+        RollBack();
+      break;
+      case 14:
       break;
       default:
       break;
