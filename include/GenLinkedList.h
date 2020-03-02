@@ -62,22 +62,30 @@ void GenLinkedList<T>::printList(){
 }
 template <class T>
 void GenLinkedList<T>::insertFront(T d){
+
   //insert element at front
   ListNode<T> *node = new ListNode<T>(d);
+
   if(front == NULL){ //is empty
     front = node;
     tail = node;
+    //cout << "hi" << endl;
+
     //if empty, set front and tail to node
   }
   else{
+
     //if there are elements
     //set node's front pointer to Front, its prev to NULL
     //the front's prev pointer goes to the node
     //and the node becomes the front
     node->next = front;
+
     node->prev = NULL;
     front->prev = node;
+
     front = node;
+
   }
   size++;
 }

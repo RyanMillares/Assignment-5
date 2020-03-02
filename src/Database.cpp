@@ -5,8 +5,10 @@ using namespace std;
 Database::Database(){
   masterStudent = new BST<Student>();
   masterFaculty = new BST<Faculty>();
-  masterFacultyHistory = new GenLinkedList<BST<Faculty>*>();
-  masterStudentHistory = new GenLinkedList<BST<Student>*>();
+  //masterFacultyHistory = new GenLinkedList<BST<Faculty>>();
+  //masterStudentHistory = new GenLinkedList<BST<Student>>();
+  masterStudentHistory = new GenStack<BST<Student>>();
+  masterFacultyHistory = new GenStack<BST<Faculty>>();
 
 }
 Database::~Database(){
@@ -93,20 +95,31 @@ void Database::ReadInFaculty(){
   cout << "---Faculty table read into database---" << endl;
 }
 void Database::SaveTrees(BST<Student>* students, BST<Faculty>* faculties){
-  masterStudentHistory->insertFront(students);
+  //BST<Student> studentSnapshot;
+  studSnapshot = *students;
 
-  if(masterStudentHistory->getSize() > 5){
-    masterStudentHistory->removeBack();
+  //BST<Faculty> facultySnapshot;
+  facSnapshot = *faculties;
+
+  masterFacultyHistory->push(facSnapshot);
+
+  masterStudentHistory->push(studSnapshot);
+  cout << "test" << endl;
+
+  /**
+  if(masterStudentHistory.getSize() > 5){
+
+    masterStudentHistory.removeBack();
+    masterFacultyHistory.removeBack();
   }
+  **/
   /** dont we all love pointerssss
   if(masterStudentHistory->front->data->root != NULL){
     cout << masterStudentHistory->front->data->root->data->studentId<< endl;
   }
   **/
-  masterFacultyHistory->insertFront(faculties);
-  if(masterFacultyHistory->getSize() > 5){
-    masterFacultyHistory->removeBack();
-  }
+
+
 }
 
 //must take in root to work
@@ -544,15 +557,17 @@ void Database::FindAdvisees(){
 void Database::RollBack(){
   //yahh it's rewind time
   cout << "roll" << endl;
-  cout << "There were " << masterStudentHistory->front->data->size << " students" << endl;
+  //cout << "There were " << masterStudentHistory->peek.size << " students" << endl;
   if(masterFacultyHistory->getSize() > 0){
-    masterFaculty = masterFacultyHistory->removeFront();
-    masterFaculty = masterFacultyHistory->removeFront();
+    facSnapshot = masterFacultyHistory->pop();
+    masterFaculty = &facSnapshot;
+
 
   }
   if(masterStudentHistory->getSize() > 0){
-    masterStudent = masterStudentHistory->removeFront();
-    masterStudent = masterStudentHistory->removeFront();
+    studSnapshot = masterStudentHistory->pop();
+    masterStudent = &studSnapshot;
+
 
   }
 

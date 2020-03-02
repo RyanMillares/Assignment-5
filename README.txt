@@ -10,3 +10,6 @@ https://www.geeksforgeeks.org/binary-search-tree-set-1-search-and-insertion/
 https://stackoverflow.com/questions/20019512/double-free-or-corruption-fasttop
 https://www.codelike.in/c/tree/binary-search-tree-delete-root-node
 https://www.geeksforgeeks.org/operator-overloading-c/
+http://www.cplusplus.com/reference/fstream/ifstream/is_open/
+http://www.cplusplus.com/doc/tutorial/pointers/
+https://www.programiz.com/cpp-programming/pointers

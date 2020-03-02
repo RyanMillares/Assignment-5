@@ -1,6 +1,7 @@
 #include "BST.h"
 #include "Student.h"
 #include "Faculty.h"
+#include "GenStack.h"
 
 
 using namespace std;
@@ -8,8 +9,12 @@ class Database{
 public:
   BST<Student>* masterStudent;
   BST<Faculty>* masterFaculty;
-  GenLinkedList<BST<Student>*>* masterStudentHistory;
-  GenLinkedList<BST<Faculty>*>* masterFacultyHistory;
+  BST<Student> studSnapshot;
+  BST<Faculty> facSnapshot;
+  //GenLinkedList<BST<Student>> masterStudentHistory;
+  //GenLinkedList<BST<Faculty>> masterFacultyHistory;
+  GenStack<BST<Student>>* masterStudentHistory;
+  GenStack<BST<Faculty>>* masterFacultyHistory;
 //i give up making stuff private honestly
   Database();
   ~Database();
